@@ -1,0 +1,41 @@
+.product-details-wrapper {
+  display: flex;
+  gap: 1rem; /* Adjust the gap as per your design */
+}
+
+.left-column {
+  width: 25%; /* Adjust the width of left column */
+}
+
+.right-column {
+  width: 80%; /* Adjust the width of right column */
+}
+
+.product-image {
+  aspect-ratio: 1;
+  object-fit: contain;
+  width: 100%;
+  border-radius: 15px;
+  background-color: grey;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem; /* Adjust margin as per your design */
+}
+
+.price-label {
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.price {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 1rem; /* Adjust margin as per your design */
+}

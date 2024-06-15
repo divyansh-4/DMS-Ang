@@ -7,6 +7,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { EditPopupComponent } from '../components/edit-popup/edit-popup.component';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ import { ButtonModule } from 'primeng/button';
 })
 export class HomeComponent {
   constructor(
-    private productService:ProductsService
+    private productService:ProductsService,
+    private router: Router 
   ){ }
   products:Product[]=[];
   totalRecords:number=0;
@@ -31,6 +33,7 @@ export class HomeComponent {
     image:'',
     price:'',
     rating:0,
+    info:''
 
   }
 
@@ -41,7 +44,9 @@ export class HomeComponent {
   toggleDeletePopup(product:Product){
 
   }
-
+  selectedProd(product: Product) {
+    this.router.navigate(['/clothes', product.id]); // Navigate to the product detail page
+  }
   toggleAddPopup(){
     this.displayAddPopup=true;
   }

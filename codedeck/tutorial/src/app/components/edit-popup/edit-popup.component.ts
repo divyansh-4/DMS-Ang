@@ -20,6 +20,7 @@ export class EditPopupComponent {
     image:'',
     price:'',
     rating:0,
+    info:''
 
   }; 
   @Output() displayChange=new EventEmitter<boolean>();

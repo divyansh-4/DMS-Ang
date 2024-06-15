@@ -1,0 +1,21 @@
+<div *ngIf="product" class="product-details-wrapper">
+  <!-- Left side (image, price, rating) -->
+  <div class="left-column">
+    <img [src]="product.image" alt="{{ product.name }}" class="product-image" />
+    <div class="row gap-05">
+      <span class="price-label">Price:</span>
+      <span class="price">{{ product.price }}</span>
+    </div>
+    <p-rating [(ngModel)]="product.rating" [readonly]="true" iconCancelClass="hidden"></p-rating>
+  </div>
+
+  <!-- Right side (name, info) -->
+  <div class="right-column">
+    <h2 class="title">{{ product.name }}</h2>
+    <p>{{ product.info }}</p>
+  </div>
+</div>
+
+<div *ngIf="!product" class="loading">
+  <p>Loading...</p>
+</div>

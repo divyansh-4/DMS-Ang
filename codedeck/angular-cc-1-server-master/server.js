@@ -47,6 +47,28 @@ app.get("/clothes", (req, res) => {
     });
   });
 });
+app.get("/clothes/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  fs.readFile("db.json", "utf8", (err, data) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    const jsonData = JSON.parse(data);
+
+    const item = jsonData.items.find((item) => item.id === id);
+
+    if (!item) {
+      res.status(404).send("Not Found");
+      return;
+    }
+
+    res.status(200).json(item);
+  });
+});
 
 // POST route - Allows to add a new item
 // example: localhost:3000/clothes

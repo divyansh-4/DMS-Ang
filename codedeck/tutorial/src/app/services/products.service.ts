@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { PaginationParams, Products } from '../../types';
+import { PaginationParams, Product, Products } from '../../types';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -25,5 +25,10 @@ export class ProductsService {
   }
   deleteProduct=(url:string): Observable<any> =>{
     return this.apiService.delete(url,{});
+  }
+  getProductById(url: string): Observable<Product> {
+    return this.apiService.get(url, {
+      responseType: 'json'
+    });
   }
 }
