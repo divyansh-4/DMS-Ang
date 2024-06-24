@@ -8,7 +8,7 @@ const Order = sequelize.define('Order', {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     }
-});
+}, { timestamps: false });
 
 Order.belongsTo(User);
 

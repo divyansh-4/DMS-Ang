@@ -9,7 +9,7 @@ const CartItem = sequelize.define('CartItem', {
         type: DataTypes.INTEGER,
         allowNull: false
     }
-});
+}, { timestamps: false });
 
 CartItem.belongsTo(User);
 CartItem.belongsTo(Product);

@@ -13,7 +13,7 @@ const OrderItem = sequelize.define('OrderItem', {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     }
-});
+}, { timestamps: false });
 
 OrderItem.belongsTo(Order);
 OrderItem.belongsTo(Product);
