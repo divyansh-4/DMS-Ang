@@ -17,6 +17,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('id');
     console.log('logged out');
     this.isAuthenticated = false;
     return true;

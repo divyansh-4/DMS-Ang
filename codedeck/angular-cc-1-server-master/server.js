@@ -280,12 +280,54 @@ app.post('/login', (req, res) => {
 
       const token = jwt.sign({ id: user.id, username: user.username }, 'secret_key', { expiresIn: '1h' });
 
-      res.json({ token });
+    res.json({ token, userId: user.id });
       
       
     // });
   });
 });
+app.post('/addCart', (req, res) => {
+  const { userId, productId } = req.body;
+  console.log("Product id iss:", productId);
+  console.log("User id iss: ", userId)
+  if (!userId || !productId) {
+    return res.status(400).send('userId and productId are required');
+  }
+
+  db.query('SELECT cartDetails FROM CartItems WHERE userId = ?', [userId], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Database query error');
+    }
+
+    let cartDetails = { products: {} };
+
+    if (results.length > 0) {
+      cartDetails = results[0].cartDetails ? JSON.parse(results[0].cartDetails) : { products: {} };
+    }
+
+    if (cartDetails.products[productId]) {
+      cartDetails.products[productId] += 1;
+    } else {
+      cartDetails.products[productId] = 1;
+    }
+
+    const updatedCartDetails = JSON.stringify(cartDetails);
+
+    db.query(
+      'INSERT INTO CartItems (userId, cartDetails) VALUES (?, ?) ON DUPLICATE KEY UPDATE cartDetails = ?',
+      [userId, updatedCartDetails, updatedCartDetails],
+      (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send('Database query error');
+        }
+        res.send('Product added to cart successfully');
+      }
+    );
+  });
+});
+
 
 // GET route - Allows to get all the items
 app.get("/clothes", async (req, res) => {

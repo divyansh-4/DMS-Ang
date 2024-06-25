@@ -82,6 +82,7 @@ export class LoginComponent {
     if (localStorage.getItem('token')) {
       console.log('removing previous');
       localStorage.removeItem('token');
+      localStorage.removeItem('id');
     }
     this.http
       .post('http://localhost:3000/login', {
@@ -91,6 +92,7 @@ export class LoginComponent {
       .subscribe(
         (response: any) => {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('id', response.userId);
           this.authService.login(true);
           this.router.navigate(['/']);
         },

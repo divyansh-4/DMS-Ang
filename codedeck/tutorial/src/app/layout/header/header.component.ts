@@ -18,11 +18,17 @@ export class HeaderComponent {
   onSubmit() {
     if (this.authService.logout()) {
       this.router.navigate(['/']);
-      console.log("logged out");
-      
+      console.log('logged out');
+    } else {
+      console.log('logout failed');
     }
-    else{
-      console.log("logout failed");
+  }
+  onSubmit2() {
+    if (this.authService.logout()) {
+      this.router.navigate(['/']);
+      console.log('logged out');
+    } else {
+      console.log('logout failed');
     }
   }
 }

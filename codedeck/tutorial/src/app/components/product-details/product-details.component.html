@@ -15,7 +15,9 @@
     <p>{{ product.info }}</p>
   </div>
 </div>
-
+    <form (ngSubmit)="onSubmit()">    
+    <button type="submit">Add to cart</button>
+    </form>
 <div *ngIf="!product" class="loading">
   <p>Loading...</p>
 </div>
