@@ -6,19 +6,24 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   private isAuthenticated = false;
 
-  login(username: string, password: string): boolean {
-    if (username === 'root' && password === '12345') {
+  login(isSuccessful: boolean): boolean {
+    if (isSuccessful) {
       this.isAuthenticated = true;
-      return true;
+    } else {
+      this.isAuthenticated = false;
     }
-    return false;
+    return this.isAuthenticated;
   }
 
   logout() {
+    localStorage.removeItem('token');
+    console.log('logged out');
     this.isAuthenticated = false;
+    return true;
   }
 
   getAuthStatus(): boolean {
     return this.isAuthenticated;
   }
 }
+

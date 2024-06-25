@@ -218,6 +218,10 @@ const User = require('./models/User');
 const CartItem = require('./models/CartItem');
 const Order = require('./models/Order');
 const OrderItem = require('./models/OrderItem');
+const mysql = require('mysql');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const bodyParser=require('body-parser');
            
 const app = express();
 const port = 3000;
@@ -233,10 +237,55 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Use express.json() middleware to parse JSON bodies of requests
-app.use(express.json());
+app.use(bodyParser.json());
 
 // Initialize Database
-initializeDatabase();
+// initializeDatabase();
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '1234',
+  database: 'my_store'
+});
+
+db.connect(err => {
+  if (err) throw err;
+  console.log('Connected to database');
+});
+
+// User authentication route
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).send('Username and password are required');
+  }
+
+  db.query('SELECT * FROM Users WHERE username = ?', [username], (err, results) => {
+    if (err) throw err;
+
+    if (results.length === 0) {
+      return res.status(401).send('Invalid username or password1');
+    }
+
+    const user = results[0];
+
+    // bcrypt.compare(password, user.password, (err, isMatch) => {
+      // if (err) throw err;
+      console.log(user.password);
+      console.log(password);
+      if (!(password===user.password)) {
+        return res.status(401).send('Invalid username or password2');
+      }
+
+      const token = jwt.sign({ id: user.id, username: user.username }, 'secret_key', { expiresIn: '1h' });
+
+      res.json({ token });
+      
+      
+    // });
+  });
+});
 
 // GET route - Allows to get all the items
 app.get("/clothes", async (req, res) => {

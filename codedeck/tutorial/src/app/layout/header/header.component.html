@@ -1,7 +1,9 @@
-<header class="wrapper row full-center">
+<header class="wrapper row">
     <!-- Logo image -->
     <img src="../../../assets/images/oc-logo.svg" alt="Logo image" class="logo" />
-
+    <form (ngSubmit)="onSubmit()">    
+    <button type="submit">Log-out</button>
+    </form>
     <!-- Navigation -->
     <!-- <div class="row gap-1">
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>

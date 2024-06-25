@@ -1,15 +1,25 @@
-<div class="login-wrapper">
+<div>
   <h2>Login</h2>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-  <form (ngSubmit)="login()">
-    <div>
-      <label for="username">Username:</label>
-      <input id="username" [(ngModel)]="username" name="username" required />
-    </div>
-    <div>
-      <label for="password">Password:</label>
-      <input id="password" type="password" [(ngModel)]="password" name="password" required />
-    </div>
+  <form (ngSubmit)="onSubmit()">
+    <label for="username">Username:</label>
+    <input type="text" id="username" [(ngModel)]="username" name="username" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" [(ngModel)]="password" name="password" required>
+    
     <button type="submit">Login</button>
   </form>
 </div>
+<!-- <div class="login-container">
+  <h2>Login</h2>
+  <form (ngSubmit)="onSubmit()">
+    <label for="username">Username:</label>
+    <input type="text" id="username" [(ngModel)]="username" name="username" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" [(ngModel)]="password" name="password" required>
+    
+    <button type="submit">Login</button>
+  </form>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+</div> -->
