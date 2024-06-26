@@ -15,20 +15,21 @@ export class HeaderComponent {
     private router: Router,
     private authService: AuthService
   ) {}
-  onSubmit() {
-    if (this.authService.logout()) {
-      this.router.navigate(['/']);
-      console.log('logged out');
-    } else {
-      console.log('logout failed');
-    }
-  }
-  onSubmit2() {
-    if (this.authService.logout()) {
-      this.router.navigate(['/']);
-      console.log('logged out');
-    } else {
-      console.log('logout failed');
-    }
-  }
+  // onSubmit() {
+  //   if (this.authService.logout()) {
+  //     this.router.navigate(['/login']);
+  //     console.log('logged out');
+  //   } else {
+  //     console.log('logout failed');
+  //   }
+  // }
+  // onSubmit2() {
+  //   console.log(localStorage.getItem('token'));
+  //   // if (localStorage.getItem('token')) {
+  //   //   this.router.navigate(['/cart']);
+  //   //   console.log('Viewing Cart');
+  //   // } else {
+  //   //   console.log('not logged in');
+  //   // }
+  // }
 }

@@ -2,6 +2,12 @@
     <!-- Add Product Button -->
     <!-- <button type="button" pButton icon="pi pi-plus" (click)="toggleAddPopup()" label="AddProduct"></button> -->
   <!-- Products -->
+      <form (ngSubmit)="onSubmit()">    
+    <button type="submit">Log-out</button>
+    </form>
+    <form (ngSubmit)="onSubmit2()">    
+    <button type="submit">Cart</button>
+    </form>
   <div class="row wrap gap-1 space-between">
     <app-product
       *ngFor="let product of products"
