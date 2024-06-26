@@ -4,6 +4,7 @@ const User = require('../models/User');
 const CartItem = require('../models/CartItem');
 const Order = require('../models/Order');
 const OrderItem = require('../models/OrderItem');
+const CartProduct=require('../models/CartProduct');
 
 const initializeDatabase = async () => {
     try {
@@ -16,6 +17,7 @@ const initializeDatabase = async () => {
         await CartItem.sync({ alter: true });
         await Order.sync({ alter: true });
         await OrderItem.sync({ alter: true });
+        await CartProduct.sync({ alter: true });
 
         console.log('Database synchronized');
     } catch (error) {

@@ -1,1 +1,24 @@
-<p>cart works!</p>
+<div class="cart-container">
+  <h1>Your Cart</h1>
+    <form (ngSubmit)="onSubmit()">    
+    <button type="submit">Log-out</button>
+    </form>
+    <form (ngSubmit)="onSubmit2()">    
+    <button type="submit">Checkout</button>
+    </form>
+  <div *ngIf="cartProducts.length > 0; else emptyCart">
+    <div *ngFor="let product of cartProducts" class="cart-product">
+      <img [src]="product.image" [alt]="product.name" class="product-image" />
+      <div class="product-details">
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.info }}</p>
+        <p>Price: ${{ product.price.toFixed(2) }}</p>
+        <p>Quantity: {{ product.qty }}</p>
+        <p>Rating: {{ product.rating }}</p>
+      </div>
+    </div>
+  </div>
+  <ng-template #emptyCart>
+    <p>Your cart is empty.</p>
+  </ng-template>
+</div>

@@ -288,45 +288,102 @@ app.post('/login', (req, res) => {
 });
 app.post('/addCart', (req, res) => {
   const { userId, productId } = req.body;
-  console.log("Product id iss:", productId);
-  console.log("User id iss: ", userId)
+  console.log("Product id is:", productId);
+  console.log("User id is:", userId);
+
   if (!userId || !productId) {
     return res.status(400).send('userId and productId are required');
   }
 
-  db.query('SELECT cartDetails FROM CartItems WHERE userId = ?', [userId], (err, results) => {
+  // First, get the product details from the Products table
+  db.query('SELECT name, image, price, rating, info FROM Products WHERE id = ?', [productId], (err, productResults) => {
     if (err) {
       console.error(err);
       return res.status(500).send('Database query error');
     }
 
-    let cartDetails = { products: {} };
-
-    if (results.length > 0) {
-      cartDetails = results[0].cartDetails ? JSON.parse(results[0].cartDetails) : { products: {} };
+    if (productResults.length === 0) {
+      return res.status(404).send('Product not found');
     }
 
-    if (cartDetails.products[productId]) {
-      cartDetails.products[productId] += 1;
-    } else {
-      cartDetails.products[productId] = 1;
-    }
+    const { name, image, price, rating, info } = productResults[0];
 
-    const updatedCartDetails = JSON.stringify(cartDetails);
-
-    db.query(
-      'INSERT INTO CartItems (userId, cartDetails) VALUES (?, ?) ON DUPLICATE KEY UPDATE cartDetails = ?',
-      [userId, updatedCartDetails, updatedCartDetails],
-      (err) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).send('Database query error');
-        }
-        res.send('Product added to cart successfully');
+    // Check if a row with the given productId and userId exists in CartProducts
+    db.query('SELECT qty FROM CartProducts WHERE userId = ? AND prodId = ?', [userId, productId], (err, cartResults) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Database query error');
       }
-    );
+
+      if (cartResults.length > 0) {
+        // If the row exists, update the qty by incrementing it by 1
+        db.query('UPDATE CartProducts SET qty = qty + 1 WHERE userId = ? AND prodId = ?', [userId, productId], (err) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send('Database query error');
+          }
+          res.send('Product quantity updated successfully');
+        });
+      } else {
+        // If the row does not exist, insert a new row
+        const qty = 1; // initial quantity for new products
+        db.query(
+          'INSERT INTO CartProducts (prodId, userId, name, image, price, rating, info, qty) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+          [productId, userId, name, image, price, rating, info, qty],
+          (err) => {
+            if (err) {
+              console.error(err);
+              return res.status(500).send('Database query error');
+            }
+            res.send('Product added to cart successfully');
+          }
+        );
+      }
+    });
   });
 });
+
+// app.post('/addCart', (req, res) => {
+//   const { userId, productId } = req.body;
+//   console.log("Product id iss:", productId);
+//   console.log("User id iss: ", userId)
+//   if (!userId || !productId) {
+//     return res.status(400).send('userId and productId are required');
+//   }
+
+//   db.query('SELECT cartDetails FROM CartItems WHERE userId = ?', [userId], (err, results) => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).send('Database query error');
+//     }
+
+//     let cartDetails = { products: {} };
+
+//     if (results.length > 0) {
+//       cartDetails = results[0].cartDetails ? JSON.parse(results[0].cartDetails) : { products: {} };
+//     }
+
+//     if (cartDetails.products[productId]) {
+//       cartDetails.products[productId] += 1;
+//     } else {
+//       cartDetails.products[productId] = 1;
+//     }
+
+//     const updatedCartDetails = JSON.stringify(cartDetails);
+
+//     db.query(
+//       'INSERT INTO CartItems (userId, cartDetails) VALUES (?, ?) ON DUPLICATE KEY UPDATE cartDetails = ?',
+//       [userId, updatedCartDetails, updatedCartDetails],
+//       (err) => {
+//         if (err) {
+//           console.error(err);
+//           return res.status(500).send('Database query error');
+//         }
+//         res.send('Product added to cart successfully');
+//       }
+//     );
+//   });
+// });
 
 
 // GET route - Allows to get all the items
@@ -369,6 +426,19 @@ app.get("/clothes/:id", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+app.get('/getCartProducts/:userId', (req, res) => {
+  const { userId } = req.params;
+  console.log("Happening");
+
+  db.query('SELECT * FROM CartProducts WHERE userId = ?', [userId], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Database query error');
+    }
+    console.log(results);
+    res.json(results);
+  });
+});
 
 // POST route - Allows to add a new item
 app.post("/clothes", async (req, res) => {
@@ -380,6 +450,44 @@ app.post("/clothes", async (req, res) => {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
+});
+app.post('/checkout', (req, res) => {
+  console.log("STarted checkout");
+  const { userId } = req.body;
+  if (!userId) {
+    return res.status(400).send('userId is required');
+  }
+
+  db.query('SELECT * FROM CartProducts WHERE userId = ?', [userId], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Database query error');
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send('No cart items found');
+    }
+
+    const orderItems = results.map(item => [
+      item.prodId, item.userId, item.name, item.image, item.price, item.rating, item.info, item.qty
+    ]);
+
+    db.query('INSERT INTO OrderItems (prodId, userId, name, image, price, rating, info, qty) VALUES ?', [orderItems], (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Database query error');
+      }
+
+      db.query('DELETE FROM CartProducts WHERE userId = ?', [userId], (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send('Database query error');
+        }
+
+        res.send('Order placed successfully');
+      });
+    });
+  });
 });
 
 // PUT route - Allows to update an item

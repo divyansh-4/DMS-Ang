@@ -25,3 +25,4 @@ const Product = sequelize.define('Product', {
 ;
 
 module.exports = Product;
+// CREATE TABLE CartProducts(cartId INT AUTO_INCREMENT PRIMARY KEY, prodId INT NOT NULL, userId INT NOT NULL, name VARCHAR(255) NOT NULL, image VARCHAR(255), price decimal(10, 2) NOT NULL, rating VARCHAR(255), info TEXT, qty INT NOT NULL);

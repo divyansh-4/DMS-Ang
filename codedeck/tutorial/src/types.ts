@@ -33,6 +33,24 @@ export interface Product{
     rating:number;
     info:string;
 }
+export interface CartProducts {
+  items: CartProduct[];
+  total: number;
+  page: number;
+  perPage: number;
+  totalPages: number;
+}
+export interface CartProduct {
+  cartId?: number;
+  prodId:number;
+  userId:number;
+  image: string;
+  name: string;
+  price: string;
+  rating: number;
+  info: string;
+  qty:number;
+}
 
 export interface PaginationParams{
     [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;

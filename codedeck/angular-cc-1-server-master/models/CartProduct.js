@@ -2,10 +2,10 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/connection');
 
-const OrderItem = sequelize.define('OrderItem', {
-    prodId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+const CartProduct = sequelize.define('CartProduct', {
+    prodId:{
+        type:DataTypes.INTEGER,
+        allowNull:false
     },
     userId: {
         type: DataTypes.INTEGER,
@@ -36,5 +36,5 @@ const OrderItem = sequelize.define('OrderItem', {
 }, { timestamps: false })
     ;
 
-module.exports = OrderItem;
+module.exports = CartProduct;
 // CREATE TABLE CartProducts(cartId INT AUTO_INCREMENT PRIMARY KEY, prodId INT NOT NULL, userId INT NOT NULL, name VARCHAR(255) NOT NULL, image VARCHAR(255), price decimal(10, 2) NOT NULL, rating VARCHAR(255), info TEXT, qty INT NOT NULL);
