@@ -215,8 +215,8 @@ const cors = require('cors');
 const initializeDatabase = require('./database/initialize');
 const Product = require('./models/Product');
 const User = require('./models/User');
-const CartItem = require('./models/CartItem');
-const Order = require('./models/Order');
+// const CartItem = require('./models/CartItem');
+// const Order = require('./models/Order');
 const OrderItem = require('./models/OrderItem');
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
@@ -439,6 +439,19 @@ app.get('/getCartProducts/:userId', (req, res) => {
     res.json(results);
   });
 });
+app.get('/getOrderProducts/:userId', (req, res) => {
+  const { userId } = req.params;
+  console.log("Happening");
+
+  db.query('SELECT * FROM OrderItems WHERE userId = ?', [userId], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Database query error');
+    }
+    console.log(results);
+    res.json(results);
+  });
+});
 
 // POST route - Allows to add a new item
 app.post("/clothes", async (req, res) => {
@@ -451,21 +464,60 @@ app.post("/clothes", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+// app.post('/checkout', (req, res) => {
+//   console.log("STarted checkout");
+//   const { userId } = req.body;
+//   if (!userId) {
+//     return res.status(400).send('userId is required');
+//   }
+
+//   db.query('SELECT * FROM CartProducts WHERE userId = ?', [userId], (err, results) => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).send('Database query error');
+//     }
+
+//     if (results.length === 0) {
+//       return res.status(404).send('No cart items found');
+//     }
+
+//     const orderItems = results.map(item => [
+//       item.prodId, item.userId, item.name, item.image, item.price, item.rating, item.info, item.qty
+//     ]);
+
+//     db.query('INSERT INTO OrderItems (prodId, userId, name, image, price, rating, info, qty) VALUES ?', [orderItems], (err) => {
+//       if (err) {
+//         console.error(err);
+//         return res.status(500).send('Database query error');
+//       }
+
+//       db.query('DELETE FROM CartProducts WHERE userId = ?', [userId], (err) => {
+//         if (err) {
+//           console.error(err);
+//           return res.status(500).send('Database query error');
+//         }
+
+//         res.send('Order placed successfully');
+//       });
+//     });
+//   });
+// });
+
 app.post('/checkout', (req, res) => {
-  console.log("STarted checkout");
   const { userId } = req.body;
+  console.log("Checkout initiated for userId:", userId); // Log for debugging
   if (!userId) {
-    return res.status(400).send('userId is required');
+    return res.status(400).json({ error: 'userId is required' });
   }
 
   db.query('SELECT * FROM CartProducts WHERE userId = ?', [userId], (err, results) => {
     if (err) {
       console.error(err);
-      return res.status(500).send('Database query error');
+      return res.status(500).json({ error: 'Database query error' });
     }
 
     if (results.length === 0) {
-      return res.status(404).send('No cart items found');
+      return res.status(404).json({ error: 'No cart items found' });
     }
 
     const orderItems = results.map(item => [
@@ -475,16 +527,16 @@ app.post('/checkout', (req, res) => {
     db.query('INSERT INTO OrderItems (prodId, userId, name, image, price, rating, info, qty) VALUES ?', [orderItems], (err) => {
       if (err) {
         console.error(err);
-        return res.status(500).send('Database query error');
+        return res.status(500).json({ error: 'Database query error' });
       }
 
       db.query('DELETE FROM CartProducts WHERE userId = ?', [userId], (err) => {
         if (err) {
           console.error(err);
-          return res.status(500).send('Database query error');
+          return res.status(500).json({ error: 'Database query error' });
         }
 
-        res.send('Order placed successfully');
+        res.json({ message: 'Order placed successfully' });
       });
     });
   });

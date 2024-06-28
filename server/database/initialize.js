@@ -1,8 +1,8 @@
 const sequelize = require('./connection');
 const Product = require('../models/Product');
 const User = require('../models/User');
-const CartItem = require('../models/CartItem');
-const Order = require('../models/Order');
+// const CartItem = require('../models/CartItem');
+// const Order = require('../models/Order');
 const OrderItem = require('../models/OrderItem');
 const CartProduct=require('../models/CartProduct');
 
@@ -14,8 +14,8 @@ const initializeDatabase = async () => {
         // Ensure models are defined without timestamps
         await Product.sync({ alter: true });
         await User.sync({ alter: true });
-        await CartItem.sync({ alter: true });
-        await Order.sync({ alter: true });
+        // await CartItem.sync({ alter: true });
+        // await Order.sync({ alter: true });
         await OrderItem.sync({ alter: true });
         await CartProduct.sync({ alter: true });
 
