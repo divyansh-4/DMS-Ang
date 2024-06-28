@@ -1,0 +1,19 @@
+<div class="login-wrapper">
+  <h2>Signup</h2>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <label for="username">Username:</label>
+      <input id="username" [(ngModel)]="username" name="username" required />
+    </div>
+    <div>
+      <label for="password">prakhaPassword:</label>
+      <input id="password" type="password" [(ngModel)]="password" name="password" required />
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" type="email" [(ngModel)]="email" name="email" required />
+    </div>
+    <button type="submit">Signup</button>
+  </form>
+</div>

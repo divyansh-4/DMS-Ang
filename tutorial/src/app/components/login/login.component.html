@@ -1,4 +1,40 @@
-<div>
+<div class="login-wrapper">
+  <h2>Login</h2>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <label for="username">Username:</label>
+      <input id="username" [(ngModel)]="username" name="username" required />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" type="password" [(ngModel)]="password" name="password" required />
+    </div>
+    <button type="submit">Login</button>
+  </form>
+  <br>
+  <form (ngSubmit)="navigateToSignup()">
+  <button type="'submit">Signup</button>
+  </form>
+</div>
+
+
+<!-- <div class="login-wrapper">
+  <h2>Login</h2>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <label for="username">Username:</label>
+      <input id="username" [(ngModel)]="username" name="username" required />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" type="password" [(ngModel)]="password" name="password" required />
+    </div>
+    <button type="submit">Login</button>
+  </form>
+</div> -->
+<!-- <div>
   <h2>Login</h2>
   <form (ngSubmit)="onSubmit()">
     <label for="username">Username:</label>
@@ -9,7 +45,7 @@
     
     <button type="submit">Login</button>
   </form>
-</div>
+</div> -->
 <!-- <div class="login-container">
   <h2>Login</h2>
   <form (ngSubmit)="onSubmit()">
@@ -23,3 +59,4 @@
   </form>
   <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 </div> -->
+<!-- INSERT INTO Users (username,password,email) VALUES (?,?,?); -->

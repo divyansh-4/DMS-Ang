@@ -286,6 +286,22 @@ app.post('/login', (req, res) => {
     // });
   });
 });
+// User signup route
+app.post('/signup', (req, res) => {
+  const { username, password, email } = req.body;
+
+  if (!username || !password || !email) {
+    return res.status(400).send('All fields are required');
+  }
+
+  db.query('INSERT INTO Users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err, results) => {
+    if (err){ 
+      console.log(err);
+      throw err;};
+
+    res.status(201).send('User created successfully');
+  });
+});
 app.post('/addCart', (req, res) => {
   const { userId, productId } = req.body;
   console.log("Product id is:", productId);
