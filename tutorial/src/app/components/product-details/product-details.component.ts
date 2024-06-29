@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../services/products.service';
 import { Product, Products } from '../../../types';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-details',
@@ -25,11 +26,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ProductDetailsComponent implements OnInit {
   @Input() product!: Product;
   errorMessage: string | undefined;
+  successMessage: string | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private router: Router,
+    private authService:AuthService
   ) {}
 
   onSubmit() {
@@ -57,14 +61,47 @@ export class ProductDetailsComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          console.log('Product added to cart successfully');
-          console.log(response);
+          this.successMessage = 'Product added to cart successfully';
+          setTimeout(() => {
+            this.successMessage = undefined;
+          }, 3000); // Hide message after 3 seconds
         },
         (error) => {
           console.error('Error adding product to cart:', error);
           this.errorMessage = 'Error adding product to cart';
         }
       );
+  }
+  onSubmit2() {
+    // console.log(localStorage.getItem('token'));
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['/cart']);
+      console.log('Viewing Cart');
+    } else {
+      console.log('not logged in');
+    }
+  }
+  logout() {
+    if (this.authService.logout()) {
+      this.router.navigate(['/login']);
+      console.log('logged out');
+    } else {
+      console.log('logout failed');
+    }
+  }
+  goHome() {
+    if (localStorage.getItem('token')) {
+      this.authService.login(true);
+      this.router.navigate(['/']);
+    }
+  }
+  navigateToOrders() {
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['/order']);
+      console.log('Viewing Cart');
+    } else {
+      console.log('not logged in');
+    }
   }
 
   ngOnInit(): void {

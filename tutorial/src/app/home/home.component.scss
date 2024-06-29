@@ -1,0 +1,25 @@
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+}
+
+.products-wrapper {
+    margin-top: 5rem;
+    /* Adjust to provide some space between buttons and products */
+}
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

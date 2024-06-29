@@ -1,41 +1,85 @@
 .product-details-wrapper {
   display: flex;
-  gap: 1rem; /* Adjust the gap as per your design */
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .left-column {
-  width: 25%; /* Adjust the width of left column */
+  flex: 1 1 30%;
+  /* Adjust to be responsive */
+  text-align: center;
 }
 
 .right-column {
-  width: 80%; /* Adjust the width of right column */
+  flex: 1 1 65%;
+  /* Adjust to be responsive */
 }
 
 .product-image {
   aspect-ratio: 1;
   object-fit: contain;
   width: 100%;
+  max-width: 300px;
   border-radius: 15px;
-  background-color: grey;
+  background-color: #e0e0e0;
+  margin-bottom: 1rem;
 }
 
 .title {
   font-weight: 700;
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem; /* Adjust margin as per your design */
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
 }
 
 .price-label {
   font-weight: 300;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  color: #888;
 }
 
 .price {
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.5rem;
+  color: #333;
+  margin-left: 0.5rem;
 }
 
 .loading {
   text-align: center;
-  margin-top: 1rem; /* Adjust margin as per your design */
+  margin-top: 1rem;
+}
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: space-between;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  margin-top: 1rem;
+}
+
+.success-message {
+  color: green;
+  margin-top: 1rem;
 }

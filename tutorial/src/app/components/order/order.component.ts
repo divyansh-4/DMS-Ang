@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 interface OrderProduct {
   orderId: number;
@@ -19,7 +21,9 @@ interface OrderProduct {
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.scss'],
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule,
+    CommonModule,
+    ButtonModule],
   standalone: true,
 })
 export class OrderComponent implements OnInit {
@@ -43,7 +47,21 @@ export class OrderComponent implements OnInit {
       console.log('logout failed');
     }
   }
-
+  goHome() {
+    if (localStorage.getItem('token')) {
+      this.authService.login(true);
+      this.router.navigate(['/']);
+    }
+  }
+  onSubmit2() {
+    // console.log(localStorage.getItem('token'));
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['/cart']);
+      console.log('Viewing Cart');
+    } else {
+      console.log('not logged in');
+    }
+  }
   checkout() {
     // console.log("NOT HERE !");
     if (localStorage.getItem('token')) {

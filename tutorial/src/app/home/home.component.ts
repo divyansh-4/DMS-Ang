@@ -61,6 +61,14 @@ export class HomeComponent {
       console.log('not logged in');
     }
   }
+  navigateToOrders() {
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['/order']);
+      console.log('Viewing Cart');
+    } else {
+      console.log('not logged in');
+    }
+  }
 
   toggleEditPopup(product: Product) {
     this.selectedProduct = product;

@@ -1,8 +1,13 @@
+    <!-- <div class="button-group">
+  <button pButton type="button" label="Home" (click)="checkout()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Orders" (click)="navigateToOrders()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Log-out" (click)="logout()" class="p-button-outlined"></button>
+</div>
 <div class="cart-container">
-  <h1>Your Cart</h1>
-  <button type="button" (click)="logout()">Log-out</button>
-  <button type="button" (click)="checkout()">Checkout</button>
-  <div *ngIf="cartProducts.length > 0; else emptyCart">
+  <h1>Your Cart</h1> -->
+  <!-- <button type="button" (click)="logout()">Log-out</button>
+  <button type="button" (click)="checkout()">Checkout</button> -->
+  <!-- <div *ngIf="cartProducts.length > 0; else emptyCart">
     <div *ngFor="let product of cartProducts" class="cart-product">
       <img [src]="product.image" [alt]="product.name" class="product-image" />
       <div class="product-details">
@@ -17,4 +22,30 @@
   <ng-template #emptyCart>
     <p>Your cart is empty.</p>
   </ng-template>
+</div> -->
+
+
+<div class="button-group">
+  <button pButton type="button" label="CheckOut" (click)="checkout()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Home" (click)="goHome()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Orders" (click)="navigateToOrders()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Log-out" (click)="logout()" class="p-button-outlined"></button>
+</div>
+
+<div class="cart-container">
+  <h1>Shopping Cart</h1>
+  <div *ngIf="cartProducts.length === 0" class="empty-cart">
+    <p>Your cart is empty</p>
+  </div>
+  <div *ngIf="cartProducts.length > 0">
+    <div *ngFor="let product of cartProducts" class="cart-product">
+      <img [src]="product.image" alt="{{ product.name }}" class="product-image" />
+      <div class="product-details">
+        <h2>{{ product.name }}</h2>
+        <p>Price: {{ product.price }}</p>
+        <p>Quantity: {{ product.qty }}</p>
+        <p>Rating: {{ product.rating }}</p>
+      </div>
+    </div>
+  </div>
 </div>

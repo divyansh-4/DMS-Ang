@@ -1,14 +1,19 @@
-<div class="column gap-1">
+<!-- <div class="column gap-1"> -->
     <!-- Add Product Button -->
     <!-- <button type="button" pButton icon="pi pi-plus" (click)="toggleAddPopup()" label="AddProduct"></button> -->
+    <div class="button-group">
+  <button pButton type="button" label="Cart" (click)="onSubmit2()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Orders" (click)="navigateToOrders()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Log-out" (click)="onSubmit()" class="p-button-outlined"></button>
+</div>
   <!-- Products -->
-      <form (ngSubmit)="onSubmit()">    
+      <!-- <form (ngSubmit)="onSubmit()">    
     <button type="submit">Log-out</button>
     </form>
     <form (ngSubmit)="onSubmit2()">    
     <button type="submit">Cart</button>
-    </form>
-  <div class="row wrap gap-1 space-between">
+    </form> -->
+  <div class="row wrap gap-1 space-between products-wrapper">
     <app-product
       *ngFor="let product of products"
       [product]="product"
@@ -17,6 +22,7 @@
       (click)="selectedProd(product)"
     ></app-product>
   </div>
+  <div>
 
   <!-- Paginator -->
   <p-paginator

@@ -19,8 +19,11 @@
 }
 
 .product-image {
-    max-width: 100px;
-    max-height: 100px;
+    aspect-ratio: 1;
+    object-fit: contain;
+    width: 100px;
+    border-radius: 15px;
+    background-color: grey;
     margin-right: 20px;
 }
 
@@ -35,4 +38,33 @@
 
 .product-details p {
     margin: 5px 0;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.empty-cart {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #777;
 }

@@ -75,6 +75,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 interface CartProduct {
   prodId: number;
@@ -91,7 +93,7 @@ interface CartProduct {
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, ButtonModule],
   standalone: true,
 })
 export class CartComponent implements OnInit {
@@ -113,6 +115,12 @@ export class CartComponent implements OnInit {
       console.log('logged out');
     } else {
       console.log('logout failed');
+    }
+  }
+  goHome() {
+    if (localStorage.getItem('token')) {
+      this.authService.login(true);
+      this.router.navigate(['/']);
     }
   }
 
@@ -145,7 +153,14 @@ export class CartComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-
+  navigateToOrders() {
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['/order']);
+      console.log('Viewing Cart');
+    } else {
+      console.log('not logged in');
+    }
+  }
   fetchCartProducts(): void {
     const userId = localStorage.getItem('id');
     if (!userId) {

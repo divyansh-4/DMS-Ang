@@ -1,7 +1,12 @@
+<div class="button-group">
+  <button pButton type="button" label="Cart" (click)="onSubmit2()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Home" (click)="goHome()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Log-out" (click)="logout()" class="p-button-outlined"></button>
+</div>
 <div class="cart-container">
-  <h1>Your Cart</h1>
-  <button type="button" (click)="logout()">Log-out</button>
-  <button type="button" (click)="checkout()">Cart</button>
+  <h1>Your Orders</h1>
+  <!-- <button type="button" (click)="logout()">Log-out</button>
+  <button type="button" (click)="checkout()">Cart</button> -->
   <div *ngIf="cartProducts.length > 0; else emptyCart">
     <div *ngFor="let product of cartProducts" class="cart-product">
       <img [src]="product.image" [alt]="product.name" class="product-image" />
