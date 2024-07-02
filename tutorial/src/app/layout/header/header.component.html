@@ -1,6 +1,6 @@
-<header class="wrapper row full-center">
+<!-- <header class="wrapper row full-center"> -->
     <!-- Logo image -->
-    <img src="/assets/images/oc-logo.svg" alt="Logo image" class="logo" />
+    <!-- <img src="/assets/images/oc-logo.svg" alt="Logo image" class="logo" /> -->
     <!-- <form (ngSubmit)="onSubmit()">    
     <button type="submit">Log-out</button>
     </form>
@@ -12,4 +12,11 @@
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
         <a routerLink="/about-us" routerLinkActive="active">About</a>
     </div> -->
+<!-- </header> -->
+<header class="wrapper row full-center">
+    <img src="/assets/images/oc-logo.svg" alt="Logo image" class="logo" />
+    <div class="header-right">
+        <span *ngIf="!isLoggedIn" class="login-message">Not logged in</span>
+        <button pButton type="button" (click)="navigateToProfile()" class="p-button-outlined">Profile</button>
+    </div>
 </header>

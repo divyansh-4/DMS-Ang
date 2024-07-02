@@ -1,0 +1,83 @@
+.profile-wrapper {
+    display: flex;
+    justify-content: center;
+    /* Center the profile box */
+    padding: 20px;
+    /* Space from the ends of the page */
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #0e3a53;
+    /* Background color similar to the image */
+    color: #ffffff;
+    /* Text color to contrast the dark background */
+    max-width: 550px;
+    /* Limit the width of the profile box */
+    width: 100%;
+}
+
+.profile-picture {
+    width: 200px;
+    /* Adjust the size as needed */
+    height: 200px;
+    /* Adjust the size as needed */
+    border-radius: 50%;
+    margin-right: 20px;
+    /* Space between the profile picture and the details */
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    /* Space between buttons and text */
+}
+
+.user-name {
+    font-size: 2rem;
+    /* Adjust the font size as needed */
+    font-weight: bold;
+    margin: 0;
+}
+
+.user-email {
+    font-size: 1.2rem;
+    /* Adjust the font size as needed */
+    margin: 0;
+}
+
+button {
+    background-color: transparent;
+    /* Button background color similar to the image */
+    color: #ffffff;
+    /* Button text color */
+    border: 1px solid #ffffff;
+    /* Button border color */
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ffffff;
+    /* Hover background color */
+    color: #0e3a53;
+    /* Hover text color */
+}
+
+.loading {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #0e3a53;
+    /* Adjust the color as needed */
+}

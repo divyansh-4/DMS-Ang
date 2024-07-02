@@ -665,7 +665,22 @@ app.get('/cartQuantity', (req, res) => {
   });
 });
 
+app.get('/profile/:userId', (req, res) => {
+  const { userId } = req.params;
+  console.log("Fetching user profile");
 
+  db.query('SELECT pic, username, email FROM Users WHERE id = ?', [userId], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Database query error');
+    }
+    if (results.length === 0) {
+      return res.status(404).send('User not found');
+    }
+    console.log(results[0]);
+    res.json(results[0]);
+  });
+});
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
