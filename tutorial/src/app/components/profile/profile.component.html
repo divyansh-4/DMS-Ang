@@ -1,0 +1,16 @@
+<div class="button-group">
+  <button pButton type="button" label="Cart" (click)="onSubmit2()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Home" (click)="goHome()" class="p-button-outlined"></button>
+  <button pButton type="button" label="Log-out" (click)="logout()" class="p-button-outlined"></button>
+</div>
+<div *ngIf="user" class="profile-container">
+  <img [src]="user.pic" alt="Profile Picture" class="profile-picture" />
+  <div class="user-details">
+    <p class="user-name">{{ user?.username }}</p>
+    <p class="user-email">{{ user?.email }}</p>
+  </div>
+  <button pButton type="button" (click)="navigateToOrders()" class="button2">Go to Orders</button>
+</div>
+<div *ngIf="!user" class="loading">
+  <p>Loading...</p>
+</div>

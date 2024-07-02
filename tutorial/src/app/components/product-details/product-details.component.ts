@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../services/products.service';
-import { Product, Products } from '../../../types';
+import { Product } from '../../../types';
 import { CommonModule } from '@angular/common';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
@@ -27,14 +27,47 @@ export class ProductDetailsComponent implements OnInit {
   @Input() product!: Product;
   errorMessage: string | undefined;
   successMessage: string | undefined;
+  cartQty: number = 0;
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private productService: ProductsService,
     private router: Router,
-    private authService:AuthService
+    private authService: AuthService
   ) {}
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.productService
+        .getProductById(`http://localhost:3000/clothes/${id}`)
+        .subscribe((data) => {
+          this.product = data;
+          this.getCartQuantity();
+        });
+    }
+  }
+
+  getCartQuantity() {
+    const userId = localStorage.getItem('id');
+    const productId = this.route.snapshot.paramMap.get('id');
+
+    if (userId && productId) {
+      this.http
+        .get<number>(
+          `http://localhost:3000/cartQuantity?userId=${userId}&productId=${productId}`
+        )
+        .subscribe(
+          (qty: number) => {
+            this.cartQty = qty;
+          },
+          (error) => {
+            console.error('Error fetching cart quantity:', error);
+          }
+        );
+    }
+  }
 
   onSubmit() {
     const productId = this.route.snapshot.paramMap.get('id');
@@ -62,6 +95,7 @@ export class ProductDetailsComponent implements OnInit {
       .subscribe(
         (response: any) => {
           this.successMessage = 'Product added to cart successfully';
+          this.getCartQuantity();
           setTimeout(() => {
             this.successMessage = undefined;
           }, 3000); // Hide message after 3 seconds
@@ -72,8 +106,46 @@ export class ProductDetailsComponent implements OnInit {
         }
       );
   }
+
+  removeFromCart() {
+    const productId = this.route.snapshot.paramMap.get('id');
+    const userId = localStorage.getItem('id');
+
+    if (!userId) {
+      this.errorMessage = 'User not logged in';
+      return;
+    }
+
+    if (!productId) {
+      this.errorMessage = 'Product ID not found';
+      return;
+    }
+
+    this.http
+      .post(
+        'http://localhost:3000/removeCart',
+        {
+          userId: userId,
+          productId: productId,
+        },
+        { responseType: 'text' }
+      )
+      .subscribe(
+        (response: any) => {
+          this.successMessage = 'Product removed from cart successfully';
+          this.getCartQuantity();
+          setTimeout(() => {
+            this.successMessage = undefined;
+          }, 3000); // Hide message after 3 seconds
+        },
+        (error) => {
+          console.error('Error removing product from cart:', error);
+          this.errorMessage = 'Error removing product from cart';
+        }
+      );
+  }
+
   onSubmit2() {
-    // console.log(localStorage.getItem('token'));
     if (localStorage.getItem('token')) {
       this.router.navigate(['/cart']);
       console.log('Viewing Cart');
@@ -81,6 +153,7 @@ export class ProductDetailsComponent implements OnInit {
       console.log('not logged in');
     }
   }
+
   logout() {
     if (this.authService.logout()) {
       this.router.navigate(['/login']);
@@ -89,29 +162,20 @@ export class ProductDetailsComponent implements OnInit {
       console.log('logout failed');
     }
   }
+
   goHome() {
     if (localStorage.getItem('token')) {
       this.authService.login(true);
       this.router.navigate(['/']);
     }
   }
+
   navigateToOrders() {
     if (localStorage.getItem('token')) {
       this.router.navigate(['/order']);
       console.log('Viewing Cart');
     } else {
       console.log('not logged in');
-    }
-  }
-
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.productService
-        .getProductById(`http://localhost:3000/clothes/${id}`)
-        .subscribe((data) => {
-          this.product = data;
-        });
     }
   }
 }
