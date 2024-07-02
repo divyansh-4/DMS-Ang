@@ -286,7 +286,6 @@ app.post('/login', (req, res) => {
     // });
   });
 });
-
 // User signup route
 app.post('/signup', (req, res) => {
   const { username, password, email } = req.body;
@@ -303,75 +302,6 @@ app.post('/signup', (req, res) => {
     res.status(201).send('User created successfully');
   });
 });
-// Endpoint to remove item from cart
-app.post('/removeCart', (req, res) => {
-  const { userId, productId } = req.body;
-  console.log("Product id to remove is:", productId);
-  console.log("User id is:", userId);
-
-  if (!userId || !productId) {
-    return res.status(400).send('userId and productId are required');
-  }
-
-  // Check if the row with the given productId and userId exists in CartProducts
-  db.query('SELECT qty FROM CartProducts WHERE userId = ? AND prodId = ?', [userId, productId], (err, cartResults) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('Database query error');
-    }
-
-    if (cartResults.length > 0) {
-      const qty = cartResults[0].qty;
-      if (qty > 1) {
-        // If the row exists and qty is greater than 1, decrement the qty by 1
-        db.query('UPDATE CartProducts SET qty = qty - 1 WHERE userId = ? AND prodId = ?', [userId, productId], (err) => {
-          if (err) {
-            console.error(err);
-            return res.status(500).send('Database query error');
-          }
-          res.send('Product quantity decreased successfully');
-        });
-      } else {
-        // If qty is 1, delete the row
-        db.query('DELETE FROM CartProducts WHERE userId = ? AND prodId = ?', [userId, productId], (err) => {
-          if (err) {
-            console.error(err);
-            return res.status(500).send('Database query error');
-          }
-          res.send('Product removed from cart successfully');
-        });
-      }
-    } else {
-      res.status(404).send('Product not found in cart');
-    }
-  });
-});
-
-// Endpoint to get the quantity of a product in the cart
-app.get('/cartQuantity', (req, res) => {
-  const { userId, productId } = req.query;
-  console.log("Product id to get quantity is:", productId);
-  console.log("User id is:", userId);
-
-  if (!userId || !productId) {
-    return res.status(400).send('userId and productId are required');
-  }
-
-  // Query to get the quantity of the product in the cart
-  db.query('SELECT qty FROM CartProducts WHERE userId = ? AND prodId = ?', [userId, productId], (err, cartResults) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('Database query error');
-    }
-
-    if (cartResults.length > 0) {
-      res.json(cartResults[0].qty);
-    } else {
-      res.json(0);
-    }
-  });
-});
-
 app.post('/addCart', (req, res) => {
   const { userId, productId } = req.body;
   console.log("Product id is:", productId);
@@ -512,34 +442,17 @@ app.get("/clothes/:id", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.get('/profile/:userId', (req, res) => {
+app.get('/getCartProducts/:userId', (req, res) => {
   const { userId } = req.params;
-  console.log("Fetching user profile");
+  console.log("Happening");
 
-  db.query('SELECT pic,username, email FROM Users WHERE id = ?', [userId], (err, results) => {
+  db.query('SELECT * FROM CartProducts WHERE userId = ?', [userId], (err, results) => {
     if (err) {
       console.error(err);
       return res.status(500).send('Database query error');
     }
-    if (results.length === 0) {
-      return res.status(404).send('User not found');
-    }
-    console.log(results[0]);
-    res.json(results[0]);
-  });
-});
-
-app.get('/profile/:userId', (req, res) => {
-  const { userId } = req.params;
-  console.log("Happening");
-  db.query('SELECT * FROM Users WHERE username = ?', [userId], (err, results) => {
-    if (err) throw err;
-
-    const user = results[0];
-    res.json({user});
-
-
-    // });
+    console.log(results);
+    res.json(results);
   });
 });
 app.get('/getOrderProducts/:userId', (req, res) => {
@@ -683,6 +596,75 @@ app.delete("/clothes/:id", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+// Endpoint to remove item from cart
+app.post('/removeCart', (req, res) => {
+  const { userId, productId } = req.body;
+  console.log("Product id to remove is:", productId);
+  console.log("User id is:", userId);
+
+  if (!userId || !productId) {
+    return res.status(400).send('userId and productId are required');
+  }
+
+  // Check if the row with the given productId and userId exists in CartProducts
+  db.query('SELECT qty FROM CartProducts WHERE userId = ? AND prodId = ?', [userId, productId], (err, cartResults) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Database query error');
+    }
+
+    if (cartResults.length > 0) {
+      const qty = cartResults[0].qty;
+      if (qty > 1) {
+        // If the row exists and qty is greater than 1, decrement the qty by 1
+        db.query('UPDATE CartProducts SET qty = qty - 1 WHERE userId = ? AND prodId = ?', [userId, productId], (err) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send('Database query error');
+          }
+          res.send('Product quantity decreased successfully');
+        });
+      } else {
+        // If qty is 1, delete the row
+        db.query('DELETE FROM CartProducts WHERE userId = ? AND prodId = ?', [userId, productId], (err) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send('Database query error');
+          }
+          res.send('Product removed from cart successfully');
+        });
+      }
+    } else {
+      res.status(404).send('Product not found in cart');
+    }
+  });
+});
+
+// Endpoint to get the quantity of a product in the cart
+app.get('/cartQuantity', (req, res) => {
+  const { userId, productId } = req.query;
+  console.log("Product id to get quantity is:", productId);
+  console.log("User id is:", userId);
+
+  if (!userId || !productId) {
+    return res.status(400).send('userId and productId are required');
+  }
+
+  // Query to get the quantity of the product in the cart
+  db.query('SELECT qty FROM CartProducts WHERE userId = ? AND prodId = ?', [userId, productId], (err, cartResults) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Database query error');
+    }
+
+    if (cartResults.length > 0) {
+      res.json(cartResults[0].qty);
+    } else {
+      res.json(0);
+    }
+  });
+});
+
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
