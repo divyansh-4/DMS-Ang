@@ -53,8 +53,8 @@ export class HomeComponent {
     }
   }
   onSubmit2() {
-    // console.log(localStorage.getItem('token'));
-    if (localStorage.getItem('token')) {
+    // console.log(sessionStorage.getItem('token'));
+    if (sessionStorage.getItem('token')) {
       this.router.navigate(['/cart']);
       console.log('Viewing Cart');
     } else {
@@ -62,7 +62,7 @@ export class HomeComponent {
     }
   }
   navigateToOrders() {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       this.router.navigate(['/order']);
       console.log('Viewing Cart');
     } else {

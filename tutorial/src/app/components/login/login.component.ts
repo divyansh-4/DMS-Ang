@@ -52,9 +52,9 @@
 //   ) {}
 
 //   // onSubmit() {
-//   //   if (localStorage.getItem('token')) {
+//   //   if (sessionStorage.getItem('token')) {
 //   //     console.log('removing previous');
-//   //     localStorage.removeItem('token');
+//   //     sessionStorage.removeItem('token');
 //   //   }
 //   //   this.http
 //   //     .post('http://localhost:3000/login', {
@@ -63,7 +63,7 @@
 //   //     })
 //   //     .subscribe(
 //   //       (response: any) => {
-//   //         localStorage.setItem('token', response.token);
+//   //         sessionStorage.setItem('token', response.token);
 //   //         // this.router.navigate(['']);
 //   //         console.log('Login');
 //   //       },
@@ -79,10 +79,10 @@
 //   //   }
 //   // }
 //   onSubmit() {
-//     if (localStorage.getItem('token')) {
+//     if (sessionStorage.getItem('token')) {
 //       console.log('removing previous');
-//       localStorage.removeItem('token');
-//       localStorage.removeItem('id');
+//       sessionStorage.removeItem('token');
+//       sessionStorage.removeItem('id');
 //     }
 //     this.http
 //       .post('http://localhost:3000/login', {
@@ -91,8 +91,8 @@
 //       })
 //       .subscribe(
 //         (response: any) => {
-//           localStorage.setItem('token', response.token);
-//           localStorage.setItem('id', response.userId);
+//           sessionStorage.setItem('token', response.token);
+//           sessionStorage.setItem('id', response.userId);
 //           this.authService.login(true);
 //           this.router.navigate(['/']);
 //         },
@@ -129,10 +129,10 @@ export class LoginComponent {
   ) {}
 
   onSubmit() {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       console.log('removing previous');
-      localStorage.removeItem('token');
-      localStorage.removeItem('id');
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('id');
     }
     this.http
       .post('http://localhost:3000/login', {
@@ -141,8 +141,8 @@ export class LoginComponent {
       })
       .subscribe(
         (response: any) => {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('id', response.userId);
+          sessionStorage.setItem('token', response.token);
+          sessionStorage.setItem('id', response.userId);
           this.authService.login(true);
           this.router.navigate(['/']);
         },

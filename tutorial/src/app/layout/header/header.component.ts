@@ -15,23 +15,23 @@
 //     private router: Router,
 //     private authService: AuthService
 //   ) {}
-  // onSubmit() {
-  //   if (this.authService.logout()) {
-  //     this.router.navigate(['/login']);
-  //     console.log('logged out');
-  //   } else {
-  //     console.log('logout failed');
-  //   }
-  // }
-  // onSubmit2() {
-  //   console.log(localStorage.getItem('token'));
-  //   // if (localStorage.getItem('token')) {
-  //   //   this.router.navigate(['/cart']);
-  //   //   console.log('Viewing Cart');
-  //   // } else {
-  //   //   console.log('not logged in');
-  //   // }
-  // }
+// onSubmit() {
+//   if (this.authService.logout()) {
+//     this.router.navigate(['/login']);
+//     console.log('logged out');
+//   } else {
+//     console.log('logout failed');
+//   }
+// }
+// onSubmit2() {
+//   console.log(sessionStorage.getItem('token'));
+//   // if (sessionStorage.getItem('token')) {
+//   //   this.router.navigate(['/cart']);
+//   //   console.log('Viewing Cart');
+//   // } else {
+//   //   console.log('not logged in');
+//   // }
+// }
 // }
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -53,14 +53,14 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
-    this.isLoggedIn = !!localStorage.getItem('token');
+    this.isLoggedIn = !!sessionStorage.getItem('token');
   }
 
   navigateToProfile() {
     if (this.isLoggedIn) {
       this.router.navigate(['/profile']);
     } else {
-      console.log('not logged in');
+      console.log('not logged in header for profile');
     }
   }
 }

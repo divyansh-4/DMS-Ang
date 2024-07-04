@@ -50,7 +50,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   getCartQuantity() {
-    const userId = localStorage.getItem('id');
+    const userId = sessionStorage.getItem('id');
     const productId = this.route.snapshot.paramMap.get('id');
 
     if (userId && productId) {
@@ -71,7 +71,7 @@ export class ProductDetailsComponent implements OnInit {
 
   onSubmit() {
     const productId = this.route.snapshot.paramMap.get('id');
-    const userId = localStorage.getItem('id');
+    const userId = sessionStorage.getItem('id');
 
     if (!userId) {
       this.errorMessage = 'User not logged in';
@@ -109,7 +109,7 @@ export class ProductDetailsComponent implements OnInit {
 
   removeFromCart() {
     const productId = this.route.snapshot.paramMap.get('id');
-    const userId = localStorage.getItem('id');
+    const userId = sessionStorage.getItem('id');
 
     if (!userId) {
       this.errorMessage = 'User not logged in';
@@ -146,7 +146,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   onSubmit2() {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       this.router.navigate(['/cart']);
       console.log('Viewing Cart');
     } else {
@@ -164,14 +164,14 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   goHome() {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       this.authService.login(true);
       this.router.navigate(['/']);
     }
   }
 
   navigateToOrders() {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       this.router.navigate(['/order']);
       console.log('Viewing Cart');
     } else {

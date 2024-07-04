@@ -16,8 +16,8 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('id');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('id');
     console.log('logged out');
     this.isAuthenticated = false;
     return true;
@@ -27,4 +27,3 @@ export class AuthService {
     return this.isAuthenticated;
   }
 }
-

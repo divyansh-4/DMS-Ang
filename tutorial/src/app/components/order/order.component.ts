@@ -21,9 +21,7 @@ interface OrderProduct {
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.scss'],
-  imports: [CommonModule, FormsModule,
-    CommonModule,
-    ButtonModule],
+  imports: [CommonModule, FormsModule, CommonModule, ButtonModule],
   standalone: true,
 })
 export class OrderComponent implements OnInit {
@@ -48,14 +46,14 @@ export class OrderComponent implements OnInit {
     }
   }
   goHome() {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       this.authService.login(true);
       this.router.navigate(['/']);
     }
   }
   onSubmit2() {
-    // console.log(localStorage.getItem('token'));
-    if (localStorage.getItem('token')) {
+    // console.log(sessionStorage.getItem('token'));
+    if (sessionStorage.getItem('token')) {
       this.router.navigate(['/cart']);
       console.log('Viewing Cart');
     } else {
@@ -64,7 +62,7 @@ export class OrderComponent implements OnInit {
   }
   checkout() {
     // console.log("NOT HERE !");
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       this.router.navigate(['/cart']);
       console.log('Viewing Cart');
     } else {
@@ -73,7 +71,7 @@ export class OrderComponent implements OnInit {
   }
 
   fetchOrderProducts(): void {
-    const userId = localStorage.getItem('id');
+    const userId = sessionStorage.getItem('id');
     if (!userId) {
       console.error('User not logged in');
       return;

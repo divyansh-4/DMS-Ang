@@ -50,7 +50,7 @@
 //   }
 
 //   fetchCartProducts(): void {
-//     const userId = localStorage.getItem('id');
+//     const userId = sessionStorage.getItem('id');
 //     if (!userId) {
 //       console.error('User not logged in');
 //       return;
@@ -68,7 +68,6 @@
 //       );
 //   }
 // }
-
 
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -119,16 +118,16 @@ export class CartComponent implements OnInit {
   }
 
   goHome() {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       this.authService.login(true);
       this.router.navigate(['/']);
     }
   }
 
   checkout() {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       console.log('Checking out');
-      const userId = localStorage.getItem('id');
+      const userId = sessionStorage.getItem('id');
       if (!userId) {
         console.error('User not logged in');
         return;
@@ -156,7 +155,7 @@ export class CartComponent implements OnInit {
   }
 
   navigateToOrders() {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       this.router.navigate(['/order']);
       console.log('Viewing Cart');
     } else {
@@ -165,7 +164,7 @@ export class CartComponent implements OnInit {
   }
 
   fetchCartProducts(): void {
-    const userId = localStorage.getItem('id');
+    const userId = sessionStorage.getItem('id');
     if (!userId) {
       console.error('User not logged in');
       return;
@@ -184,7 +183,7 @@ export class CartComponent implements OnInit {
   }
 
   addToCart(productId: number): void {
-    const userId = localStorage.getItem('id');
+    const userId = sessionStorage.getItem('id');
     if (!userId) {
       console.error('User not logged in');
       return;
@@ -211,7 +210,7 @@ export class CartComponent implements OnInit {
   }
 
   removeFromCart(productId: number): void {
-    const userId = localStorage.getItem('id');
+    const userId = sessionStorage.getItem('id');
     if (!userId) {
       console.error('User not logged in');
       return;
@@ -237,4 +236,3 @@ export class CartComponent implements OnInit {
       );
   }
 }
-

@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
   }
 
   fetchUser(): void {
-    const userId = localStorage.getItem('id');
+    const userId = sessionStorage.getItem('id');
     if (!userId) {
       console.error('User not logged in');
       return;
@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit2(): void {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       this.router.navigate(['/cart']);
       console.log('Viewing Cart');
     } else {
@@ -72,7 +72,7 @@ export class ProfileComponent implements OnInit {
   }
 
   goHome(): void {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       this.authService.login(true);
       this.router.navigate(['/']);
     }

@@ -681,6 +681,7 @@ app.get('/profile/:userId', (req, res) => {
     res.json(results[0]);
   });
 });
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
